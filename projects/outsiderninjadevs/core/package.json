@@ -1,0 +1,26 @@
+{
+  "name": "@outsiderninjadevs/core",
+  "version": "1.0.3",
+  "peerDependencies": {
+    "@angular/common": "^16.2.0",
+    "@angular/core": "^16.2.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false,
+  "description": "@outsiderninjadevs/core is the Angular core library for the core utils. it has services that helps to build better angular apps with the most helpful functionnalities.",
+  "main": "index.ts",
+  "scripts": {},
+  "author": "Achraf Mataich",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/achrafmataich/ond-core.git"
+  },
+  "bugs": {
+    "url": "https://github.com/achrafmataich/ond-core/issues"
+  },
+  "homepage": "https://github.com/achrafmataich/ond-core#readme",
+  "keywords": ["ond", "outsiderninjadevs", "csv", "utilities"]
+}

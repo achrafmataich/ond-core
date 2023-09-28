@@ -2,6 +2,11 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "paths": {
+      "@outsiderninjadevs/core": [
+        "dist/outsiderninjadevs/core"
+      ]
+    },
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
