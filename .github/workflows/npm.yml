@@ -26,24 +26,12 @@ jobs:
           npm run test:core:ci
           npm run build:core:ci
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-    
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 18
-
       - name: Check for build
         run: |
-          ls -l
-
+            ls -l
+  
       - name: Publish to npm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish dist/outsiderninjadevs/core --access public
+
