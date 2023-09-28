@@ -33,7 +33,5 @@ jobs:
       - name: Publish to npm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          cd dist dist/outsiderninjadevs/core
-          npm publish --access public
+        run: npm publish dist/outsiderninjadevs/core --access public
 
