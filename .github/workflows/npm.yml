@@ -36,6 +36,13 @@ jobs:
         with:
           node-version: 18
 
+      - name: Check for build
+        run: |
+          ls -l ./
+          ls -l dist/
+          ls -l dist/outsiderninjadevs/
+          ls -l dist/outsiderninjadevs/core/
+
       - name: Publish to npm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
