@@ -29,7 +29,6 @@ jobs:
       - name: Check for build
         run: |
           ls -l
-
   
       - name: NPM Publish
         uses: JS-DevTools/npm-publish@v2.2.2
@@ -37,8 +36,5 @@ jobs:
           token: ${{ secrets.NPM_PUBLISH_TOKEN }}
           package: dist/outsiderninjadevs/core
           access: public
-
-      - if: ${{ steps.publish.outputs.type }}
-        run: echo "Version changed!"
       
 
