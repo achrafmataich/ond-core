@@ -1,27 +1,145 @@
-# OndCore
+# @outsiderninjadevs/core
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.4.
+@outsiderninjadevs/core is the Angular core library for the core utils. it has services that helps to build better angular apps with the most helpful functionnalities.
 
-## Development server
+![@Outsiderninjadevs/core logo](projects/outsiderninjadevs/core/assets/ond-logo.png)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Features
 
-## Code scaffolding
+- Generate and download CSV files.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Installation
 
-## Build
+You can install @outsiderninjadevs/core via npm:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```bash
+npm install @outsiderninjadevs/core
+```
 
-## Running unit tests
+## Usage
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+1. Import the module `OndCoreModule` in your `@NgModule`
 
-## Running end-to-end tests
+    ```ts
+    import { OndTabularModule } from '@outsiderninjadevs/core';
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+    @NgModule({
+    declarations: [
+        // ...
+    ],
+    imports: [
+        OndCoreModule, // Here is the module!
+        // ...
+    ],
+    })
+    export class YourModule { }
+    ```
 
-## Further help
+2. Create the list of elements
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+    ```ts
+
+    // imports
+
+    interface IUser {
+        name: string;
+        age: number;
+        is_an_admin?: boolean;
+    }
+
+    @Component({
+        // properties
+    })
+    export class MyComponent {
+        usersList: IUser[] = [
+            {
+                name: 'Achraf',
+                age: 24
+            },
+            {
+                name: 'Alae',
+                age: 18
+            },
+            // ...
+        ];
+
+    }
+
+    ```
+
+3. We need to inject the `OndCsvBuilderService` in out component
+
+    ```ts
+
+    import {OndCsvBuilderService} from '@outsiderninjadevs/core';
+    
+    // imports
+
+    @Component({
+        // properties
+    })
+    export class MyComponent {
+        
+        constructor(
+            private readonly csv: OndCsvBuilderService<IUser>
+        ) {}
+
+    }
+    
+    ```
+
+4. We build the csv then we download.
+
+    ```ts
+
+    import {OndCsvBuilderService} from '@outsiderninjadevs/core';
+
+    // imports
+
+    interface IUser {
+        name: string;
+        age: number;
+        is_an_admin?: boolean;
+    }
+
+    @Component({
+        // properties
+    })
+    export class MyComponent {
+        usersList: IUser[] = [
+            {
+                name: 'Achraf',
+                age: 24
+            },
+            {
+                name: 'Alae',
+                age: 18
+            },
+            // ...
+        ];
+
+        constructor(
+            private readonly csv: OndCsvBuilderService<IUser>
+        ) {}
+
+        on_click(){
+            // toCSVAsync and downloadCSVAsync are asynchronous functions
+            csv.toCSVAsync(usersList, ";") // the delimiter (;) is optional
+                .then(async csvString => {
+                    try{
+                        await csv.downloadCSVAsync(csvString, "users.csv");
+                    } catch (errorDown => {
+                        alert("Error on download " + errorDown);
+                    })
+                }).catch(error => {
+                    alert("Error " + error);
+                });
+        }
+
+    }
+    
+    ```
+
+## License
+
+This project is licensed under the MIT License - see the **`LICENSE`** file for details.

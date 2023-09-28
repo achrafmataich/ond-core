@@ -3,5 +3,8 @@
   "dest": "../../../dist/outsiderninjadevs/core",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "assets": [
+    "./assets"
+  ]
 }

@@ -2,6 +2,8 @@
 
 @outsiderninjadevs/core is the Angular core library for the core utils. it has services that helps to build better angular apps with the most helpful functionnalities.
 
+![@outsiderninjadevs/core logo](assets/ond-logo.png)
+
 ## Features
 
 - Generate and download CSV files.
@@ -133,7 +135,6 @@ npm install @outsiderninjadevs/core
                     alert("Error " + error);
                 });
         }
-
     }
     
     ```
