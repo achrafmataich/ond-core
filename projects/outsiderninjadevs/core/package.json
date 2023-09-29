@@ -1,6 +1,6 @@
 {
   "name": "@outsiderninjadevs/core",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "peerDependencies": {
     "@angular/common": "^16.2.0",
     "@angular/core": "^16.2.0"
@@ -14,6 +14,12 @@
   "scripts": {},
   "author": "Achraf Mataich",
   "license": "MIT",
+  "funding":[
+    {
+      "type": "Buy me a coffee",
+      "url": "https://www.buymeacoffee.com/achrafmataich"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/achrafmataich/ond-core.git"
