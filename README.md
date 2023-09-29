@@ -4,6 +4,8 @@
 
 ![@Outsiderninjadevs/core logo](projects/outsiderninjadevs/core/assets/ond-logo.png)
 
+[![CI/CD Angular Quality Gate](https://github.com/achrafmataich/ond-core/actions/workflows/quality.yml/badge.svg)](https://github.com/achrafmataich/ond-core/actions/workflows/quality.yml)
+
 ## Features
 
 - Generate and download CSV files.
