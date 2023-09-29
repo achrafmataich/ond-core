@@ -1,10 +1,10 @@
 # @outsiderninjadevs/core
 
-@outsiderninjadevs/core is the Angular core library for the core utils. it has services that helps to build better angular apps with the most helpful functionnalities.
+@outsiderninjadevs/core is the Angular core library for the core utils. it has services that helps to build better angular apps with the most helpful functionalities.
 
 ![@outsiderninjadevs/core logo](assets/ond-logo.png)
 
-[![CI/CD Angular Quality Gate](https://github.com/achrafmataich/ond-core/actions/workflows/quality.yml/badge.svg)](https://github.com/achrafmataich/ond-core/actions/workflows/quality.yml)
+[![CI/CD Angular Quality Gate](https://github.com/achrafmataich/ond-core/actions/workflows/quality.yml/badge.svg)](https://github.com/achrafmataich/ond-core/actions/workflows/quality.yml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=achrafmataich_ond-core&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=achrafmataich_ond-core)
 
 ## Features
 
