@@ -1,11 +1,11 @@
-name: CI/CD QUality Gate
+name: CI/CD Angular Quality Gate
 
 on:
   push:
-    branches: [csv]
+    branches: [csv, master]
 
   pull_request:
-    branches: [csv]
+    branches: [csv, master]
 
 jobs:
   build:
