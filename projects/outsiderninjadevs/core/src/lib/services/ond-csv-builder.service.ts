@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 
+type ValidValuesType = string | number | boolean | null | undefined;
+type DelimitersType = ";" | ",";
+
 /**
  * Service for building and manipulating CSV data.
  * This service provides methods for converting lists of objects to CSV strings and downloading CSV files.
@@ -80,10 +83,10 @@ export class OndCsvBuilderService {
    *
    * @template T
    * @param {T[]} items The list of objects to convert to CSV.
-   * @param {"," | ";"} delimiter (optional) the delimiter of the CSV cells
+   * @param {DelimitersType} delimiter (optional) the delimiter of the CSV cells
    * @returns {string}
    */
-  public toCSV = <T extends object>(items: T[], delimiter: "," | ";" = ","): string => {
+  public toCSV = <T extends object>(items: T[], delimiter: DelimitersType = ","): string => {
     const headers = this.generateHeaders(items);
     let csvString = headers.join(delimiter) + '\n';
 
@@ -131,10 +134,10 @@ export class OndCsvBuilderService {
   *
   * @template T 
   * @param {T[]} items The list of objects to convert to CSV.
-  * @param {"," | ";"} delimiter (optional) the delimiter of the CSV cells
+  * @param {DelimitersType} delimiter (optional) the delimiter of the CSV cells
   * @returns {Promise<string>}
   */
-  public toCSVAsync = async <T extends object>(items: T[], delimiter: "," | ";" = ","): Promise<string> => {
+  public toCSVAsync = async <T extends object>(items: T[], delimiter: DelimitersType = ","): Promise<string> => {
     return new Promise<string>((resolve, reject) => {
       try {
 
@@ -159,7 +162,7 @@ export class OndCsvBuilderService {
    * Parses a CSV file into an array of objects.
    *
    * @param {File} file - The CSV file to parse.
-   * @param {";" | ","} delimiter - The delimiter used in the CSV file (default: ",").
+   * @param {DelimitersType} delimiter - The delimiter used in the CSV file (default: ",").
    * @param hasHeader - Indicates whether the CSV file has a header line (default: true).
    * @returns A promise that resolves to an array of objects representing the CSV data.
    * @throws An error if the CSV file is invalid or missing a header line.
@@ -178,8 +181,8 @@ export class OndCsvBuilderService {
    *    });
    * ```
    */
-  public fromCSV = async (file: File, delimiter: ";" | "," = ",", hasHeader?: boolean): Promise<Record<string, string | number | boolean | null | undefined>[]> => {
-    return new Promise<Record<string, string | number | boolean | null | undefined>[]>((resolve, reject) => {
+  public fromCSV = async (file: File, delimiter: DelimitersType = ",", hasHeader?: boolean): Promise<Record<string, ValidValuesType>[]> => {
+    return new Promise<Record<string, ValidValuesType>[]>((resolve, reject) => {
       const reader = new FileReader();
 
       reader.onload = () => {
@@ -223,7 +226,7 @@ export class OndCsvBuilderService {
    * @param delimiter - The delimiter used in the CSV file.
    * @returns {string[] | null} An array of column names from the header line.
    */
-  private extractHeader(line: string | undefined, delimiter: string): string[] | null {
+  private extractHeader(line: string | undefined, delimiter: DelimitersType): string[] | null {
     if (!line) return null;
     return line.split(delimiter).map((columnName) => columnName.trim());
   }
@@ -234,16 +237,16 @@ export class OndCsvBuilderService {
    * Parses the data lines from the CSV content.
    *
    * @param {string[]} lines - The data lines from the CSV file.
-   * @param {";" | ","} delimiter - The delimiter used in the CSV file.
+   * @param {DelimitersType} delimiter - The delimiter used in the CSV file.
    * @param {string[]} header - An array of column names from the header line.
    * @returns {Record<string, any>[]} An array of objects representing the parsed CSV data.
    */
-  private parseData(lines: string[], delimiter: ";" | ",", header: string[]): Record<string, string | number | boolean | null | undefined>[] {
-    const data: Record<string, string | number | boolean | null | undefined>[] = [];
+  private parseData(lines: string[], delimiter: DelimitersType, header: string[]): Record<string, ValidValuesType>[] {
+    const data: Record<string, ValidValuesType>[] = [];
 
     for (const line of lines) {
       const values = line.split(delimiter);
-      const rowData: Record<string, string | number | boolean | null | undefined> = {};
+      const rowData: Record<string, ValidValuesType> = {};
 
       if (line === "") continue;
       for (let i = 0; i < header.length; i++) {
@@ -266,9 +269,9 @@ export class OndCsvBuilderService {
    * A function that receive a string value and returns this value in it's appropriate type
    * 
    * @param {string | undefined} value The string value
-   * @returns {string | number | boolean | null | undefined} The value in the appropriate type
+   * @returns {ValidValuesType} The value in the appropriate type
    */
-  private getBestValueOfData = (value?: string): string | number | boolean | null | undefined => {
+  private getBestValueOfData = (value?: string): ValidValuesType => {
     if (value === undefined || value.trim() === "") return undefined;
     if (value === null) return null;
     if (value.toLowerCase().trim() === "true") return true;
