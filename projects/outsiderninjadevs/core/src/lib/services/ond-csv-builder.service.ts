@@ -11,7 +11,14 @@ import { Injectable } from '@angular/core';
  *  @example 
  *  
  *  ```ts
- *    constructor(private readonly csv: OndCsvBuilderService<any>){}
+ *    constructor(private readonly csv: OndCsvBuilderService){}
+ * 
+ *    handle_click() {
+ *      this.csv.toCSVAsync<any>(this.list)
+ *        .then(res => {
+ *          // Do something
+ *        })
+ *    }
  *  ```
  * 
  *  2. If you have strongly typed your data (you have a data of type `Pet`)
@@ -19,7 +26,14 @@ import { Injectable } from '@angular/core';
  *  @example
  * 
  *  ```ts
- *    constructor(private readonly csv: OndCsvBuilderService<Pet>){}
+ *    constructor(private readonly csv: OndCsvBuilderService){}
+ * 
+ *    handle_click() {
+ *      this.csv.toCSVAsync<Pet>(this.list)
+ *        .then(res => {
+ *          // Do something
+ *        })
+ *    }
  *  ```
  */
 @Injectable({
@@ -31,6 +45,8 @@ export class OndCsvBuilderService {
    * @deprecated
    * 
    * This function is deprecated, it will be removed in future releases.
+   * 
+   * Please use `toCSVAsync` function instead.
    * 
    * @description
    * 
@@ -144,7 +160,7 @@ export class OndCsvBuilderService {
    *
    * @param {File} file - The CSV file to parse.
    * @param {";" | ","} delimiter - The delimiter used in the CSV file (default: ",").
-   * @param {boolean} hasHeader - Indicates whether the CSV file has a header line (default: true).
+   * @param hasHeader - Indicates whether the CSV file has a header line (default: true).
    * @returns A promise that resolves to an array of objects representing the CSV data.
    * @throws An error if the CSV file is invalid or missing a header line.
    * 
@@ -162,11 +178,11 @@ export class OndCsvBuilderService {
    *    });
    * ```
    */
-  public fromCSV = async (file: File, delimiter: ";" | "," = ",", hasHeader: boolean = true): Promise<Record<string, any>[]> => {
-    return new Promise<Record<string, any>[]>((resolve, reject) => {
+  public fromCSV = async (file: File, delimiter: ";" | "," = ",", hasHeader?: boolean): Promise<Record<string, string | number | boolean | null | undefined>[]> => {
+    return new Promise<Record<string, string | number | boolean | null | undefined>[]>((resolve, reject) => {
       const reader = new FileReader();
 
-      reader.onload = (e) => {
+      reader.onload = () => {
         const fileContents: string | ArrayBuffer | null = reader.result;
 
         try {
@@ -222,18 +238,18 @@ export class OndCsvBuilderService {
    * @param {string[]} header - An array of column names from the header line.
    * @returns {Record<string, any>[]} An array of objects representing the parsed CSV data.
    */
-  private parseData(lines: string[], delimiter: ";" | ",", header: string[]): Record<string, any>[] {
-    const data: Record<string, any>[] = [];
+  private parseData(lines: string[], delimiter: ";" | ",", header: string[]): Record<string, string | number | boolean | null | undefined>[] {
+    const data: Record<string, string | number | boolean | null | undefined>[] = [];
 
     for (const line of lines) {
       const values = line.split(delimiter);
-      const rowData: Record<string, any> = {};
+      const rowData: Record<string, string | number | boolean | null | undefined> = {};
 
-      if(line === "") continue;
+      if (line === "") continue;
       for (let i = 0; i < header.length; i++) {
         const key = header[i];
-        const value: any = values[i] ? values[i].trim() as any : null; // Convert empty values to null
-
+        const value = this.getBestValueOfData(values[i]);
+        if (value === undefined || value === null) continue;
         rowData[key] = value;
       }
 
@@ -242,6 +258,25 @@ export class OndCsvBuilderService {
 
     return data;
   }
+
+
+  /**
+   * @description
+   * 
+   * A function that receive a string value and returns this value in it's appropriate type
+   * 
+   * @param {string | undefined} value The string value
+   * @returns {string | number | boolean | null | undefined} The value in the appropriate type
+   */
+  private getBestValueOfData = (value?: string): string | number | boolean | null | undefined => {
+    if (value === undefined || value.trim() === "") return undefined;
+    if (value === null) return null;
+    if (value.toLowerCase().trim() === "true") return true;
+    if (value.toLowerCase().trim() === "false") return false;
+    if (!isNaN(Number(value.toLowerCase().trim()))) return Number(value.toLowerCase().trim());
+    return value;
+  }
+
 
   /**
    * @description
@@ -264,6 +299,8 @@ export class OndCsvBuilderService {
    * @deprecated
    * 
    * This function is deprecated, it will be removed in future releases.
+   * 
+   * Please use `downloadCSVAsync` function instead
    * 
    * @description
    * 
