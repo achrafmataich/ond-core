@@ -3,11 +3,11 @@ import { TestBed } from '@angular/core/testing';
 import { OndCsvBuilderService } from './ond-csv-builder.service';
 
 describe('OndCsvBuilderService', () => {
-  let service: OndCsvBuilderService<object>;
+  let service: OndCsvBuilderService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(OndCsvBuilderService<Object>);
+    service = TestBed.inject(OndCsvBuilderService);
   });
 
   it('should be created', () => {
@@ -15,6 +15,6 @@ describe('OndCsvBuilderService', () => {
   });
 
   it('should run toCSVAsync command', async () => {
-    await expectAsync(service.toCSVAsync([{ name: "achraf" }, { name: "alae" }])).toBeResolved();
+    await expectAsync(service.toCSVAsync<object>([{ name: "achraf" }, { name: "alae" }])).toBeResolved();
   })
 });
