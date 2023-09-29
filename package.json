@@ -5,7 +5,8 @@
     "ng": "ng",
     "test:core:ci": "ng test @outsiderninjadevs/core --watch=false --browsers=ChromeHeadlessCustom",
     "lint:core:ci": "ng lint @outsiderninjadevs/core",
-    "build:core:ci": "ng build @outsiderninjadevs/core --configuration production"
+    "build:core:ci": "ng build @outsiderninjadevs/core --configuration production",
+    "lint": "ng lint"
   },
   "private": true,
   "dependencies": {

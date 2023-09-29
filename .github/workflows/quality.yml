@@ -32,4 +32,6 @@ jobs:
         run: npm run test:core:ci
 
       - name: Run Lint
-        run: npm run lint:core:ci
+        run: |
+          ng add @angular-eslint/schematics
+          npm run lint:core:ci
