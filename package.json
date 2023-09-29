@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "test:core:ci": "ng test @outsiderninjadevs/core --watch=false --browsers=ChromeHeadlessCustom",
+    "lint:core:ci": "ng lint @outsiderninjadevs/core",
     "build:core:ci": "ng build @outsiderninjadevs/core --configuration production",
     "start": "ng serve",
     "build": "ng build",
