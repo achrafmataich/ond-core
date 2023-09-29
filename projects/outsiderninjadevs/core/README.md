@@ -2,6 +2,8 @@
 
 @outsiderninjadevs/core is the Angular core library for the core utils. it has services that helps to build better angular apps with the most helpful functionnalities.
 
+![@outsiderninjadevs/core logo](assets/ond-logo.png)
+
 ## Features
 
 - Generate and download CSV files.
@@ -79,7 +81,7 @@ npm install @outsiderninjadevs/core
     export class MyComponent {
         
         constructor(
-            private readonly csv: OndCsvBuilderService<IUser>
+            private readonly csv: OndCsvBuilderService
         ) {}
 
     }
@@ -117,12 +119,12 @@ npm install @outsiderninjadevs/core
         ];
 
         constructor(
-            private readonly csv: OndCsvBuilderService<IUser>
+            private readonly csv: OndCsvBuilderService
         ) {}
 
         on_click(){
             // toCSVAsync and downloadCSVAsync are asynchronous functions
-            csv.toCSVAsync(usersList, ";") // the delimiter (;) is optional
+            csv.toCSVAsync<IUser>(usersList, ";") // the delimiter (;) is optional
                 .then(async csvString => {
                     try{
                         await csv.downloadCSVAsync(csvString, "users.csv");
@@ -133,7 +135,6 @@ npm install @outsiderninjadevs/core
                     alert("Error " + error);
                 });
         }
-
     }
     
     ```

@@ -1,27 +1,146 @@
-# OndCore
+# @outsiderninjadevs/core
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.4.
+@outsiderninjadevs/core is the Angular core library for the core utils. it has services that helps to build better angular apps with the most helpful functionnalities.
 
-## Development server
+![@Outsiderninjadevs/core logo](projects/outsiderninjadevs/core/assets/ond-logo.png)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+[![CI/CD Angular Quality Gate](https://github.com/achrafmataich/ond-core/actions/workflows/quality.yml/badge.svg)](https://github.com/achrafmataich/ond-core/actions/workflows/quality.yml)
 
-## Code scaffolding
+## Features
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Generate and download CSV files.
 
-## Build
+## Installation
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+You can install @outsiderninjadevs/core via npm:
 
-## Running unit tests
+```bash
+npm install @outsiderninjadevs/core
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Usage
 
-## Running end-to-end tests
+1. Import the module `OndCoreModule` in your `@NgModule`
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+    ```ts
+    import { OndTabularModule } from '@outsiderninjadevs/core';
 
-## Further help
+    @NgModule({
+    declarations: [
+        // ...
+    ],
+    imports: [
+        OndCoreModule, // Here is the module!
+        // ...
+    ],
+    })
+    export class YourModule { }
+    ```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+2. Create the list of elements
+
+    ```ts
+
+    // imports
+
+    interface IUser {
+        name: string;
+        age: number;
+        is_an_admin?: boolean;
+    }
+
+    @Component({
+        // properties
+    })
+    export class MyComponent {
+        usersList: IUser[] = [
+            {
+                name: 'Achraf',
+                age: 24
+            },
+            {
+                name: 'Alae',
+                age: 18
+            },
+            // ...
+        ];
+
+    }
+
+    ```
+
+3. We need to inject the `OndCsvBuilderService` in out component
+
+    ```ts
+
+    import {OndCsvBuilderService} from '@outsiderninjadevs/core';
+    
+    // imports
+
+    @Component({
+        // properties
+    })
+    export class MyComponent {
+        
+        constructor(
+            private readonly csv: OndCsvBuilderService
+        ) {}
+
+    }
+    
+    ```
+
+4. We build the csv then we download.
+
+    ```ts
+
+    import {OndCsvBuilderService} from '@outsiderninjadevs/core';
+
+    // imports
+
+    interface IUser {
+        name: string;
+        age: number;
+        is_an_admin?: boolean;
+    }
+
+    @Component({
+        // properties
+    })
+    export class MyComponent {
+        usersList: IUser[] = [
+            {
+                name: 'Achraf',
+                age: 24
+            },
+            {
+                name: 'Alae',
+                age: 18
+            },
+            // ...
+        ];
+
+        constructor(
+            private readonly csv: OndCsvBuilderService
+        ) {}
+
+        on_click(){
+            // toCSVAsync and downloadCSVAsync are asynchronous functions
+            csv.toCSVAsync<IUser>(usersList, ";") // the delimiter (;) is optional
+                .then(async csvString => {
+                    try{
+                        await csv.downloadCSVAsync(csvString, "users.csv");
+                    } catch (errorDown => {
+                        alert("Error on download " + errorDown);
+                    })
+                }).catch(error => {
+                    alert("Error " + error);
+                });
+        }
+    }
+    
+    ```
+
+## License
+
+This project is licensed under the MIT License - see the **`LICENSE`** file for details.
