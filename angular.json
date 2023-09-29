@@ -7,7 +7,7 @@
       "projectType": "library",
       "root": "projects/outsiderninjadevs/core",
       "sourceRoot": "projects/outsiderninjadevs/core/src",
-      "prefix": "lib",
+      "prefix": "ond",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
