@@ -1,12 +1,12 @@
 {
   "name": "@outsiderninjadevs/core",
-  "version": "1.1.0",
+  "version": "17.0.1",
   "peerDependencies": {
-    "@angular/common": "^16.2.0",
-    "@angular/core": "^16.2.0"
+    "@angular/common": "^17.3.1",
+    "@angular/core": "^17.3.1"
   },
   "dependencies": {
-    "tslib": "^2.3.0"
+    "tslib": "^2.6.2"
   },
   "sideEffects": false,
   "description": "@outsiderninjadevs/core is the Angular core library for the core utils. it has services that helps to build better angular apps with the most helpful functionnalities.",
