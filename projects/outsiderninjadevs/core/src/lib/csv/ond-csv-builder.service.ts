@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
 type ValidValuesType = string | number | boolean | null | undefined;
 type DelimitersType = ";" | ",";
@@ -6,16 +6,16 @@ type DelimitersType = ";" | ",";
 /**
  * Service for building and manipulating CSV data.
  * This service provides methods for converting lists of objects to CSV strings and downloading CSV files.
- * 
- *  Here is how to inject this service in your component so you can generate and download a `CSV` file
- *  
+ *
+ *  Here is how to inject this service in your component, so you can generate and download a `CSV` file
+ *
  *  1. If you don't know the type of data you have, you can use the `any` type
  *
- *  @example 
- *  
+ *  @example
+ *
  *  ```ts
  *    constructor(private readonly csv: OndCsvBuilderService){}
- * 
+ *
  *    handle_click() {
  *      this.csv.toCSVAsync<any>(this.list)
  *        .then(res => {
@@ -23,14 +23,14 @@ type DelimitersType = ";" | ",";
  *        })
  *    }
  *  ```
- * 
+ *
  *  2. If you have strongly typed your data (you have a data of type `Pet`)
- * 
+ *
  *  @example
- * 
+ *
  *  ```ts
  *    constructor(private readonly csv: OndCsvBuilderService){}
- * 
+ *
  *    handle_click() {
  *      this.csv.toCSVAsync<Pet>(this.list)
  *        .then(res => {
@@ -40,30 +40,24 @@ type DelimitersType = ";" | ",";
  *  ```
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class OndCsvBuilderService {
 
   /**
-   * @deprecated
-   * 
-   * This function is deprecated, it will be removed in future releases.
-   * 
-   * Please use `toCSVAsync` function instead.
-   * 
    * @description
-   * 
-   * Converts a list of objects to CSV.
-   * 
+   *
+   * Async function that converts a list of objects of type `T` to CSV.
+   *
    * @example
-   * 
+   *
    *  ```ts
    *    // we declare the Pet type
    *    interface Pet {
    *      name: string;
    *      age: number;
    *    }
-   * 
+   *
    *    // we create a list of pets
    *    const pets: Pet[] = [
    *      {
@@ -75,68 +69,20 @@ export class OndCsvBuilderService {
    *        age: 9
    *      },
    *    ];
-   * 
+   *
    *    // we generate the CSV string value of this list
    *    // csv is an instance of OndCsvBuilderService injected here
-   *    const strCsvPets = csv.toCSV<Pet>(pets, ";"); // the delimiter (;) is optional
+   *    csv.toCSV<Pet>(pets, ";")
+   *     .then(csvStr => {
+   *       // do whatever you want with the string csv value.
+   *     });
    *  ```
    *
    * @template T
    * @param {T[]} items The list of objects to convert to CSV.
    * @param {DelimitersType} delimiter (optional) the delimiter of the CSV cells
-   * @returns {string}
+   * @returns {Promise<string>}
    */
-  public toCSV = <T extends object>(items: T[], delimiter: DelimitersType = ","): string => {
-    const headers = this.generateHeaders(items);
-    let csvString = headers.join(delimiter) + '\n';
-
-    for (const item of items) {
-      const values = this.getElementValuesOfKeys(item, headers);
-      csvString += values.join(delimiter) + '\n';
-    }
-
-    return csvString;
-  }
-
-  /**
-  * @description
-  * 
-  * Async function that converts a list of objects of type `T` to CSV.
-  * 
-  * @example
-  * 
-  *  ```ts
-  *    // we declare the Pet type
-  *    interface Pet {
-  *      name: string;
-  *      age: number;
-  *    }
-  * 
-  *    // we create a list of pets
-  *    const pets: Pet[] = [
-  *      {
-  *        name: "Filo",
-  *        age: 4
-  *      },
-  *      {
-  *        name: "Rob",
-  *        age: 9
-  *      },
-  *    ];
-  * 
-  *    // we generate the CSV string value of this list
-  *    // csv is an instance of OndCsvBuilderService injected here
-  *    csv.toCSV<Pet>(pets, ";")
-  *     .then(csvStr => {
-  *       // do whatever you want with the string csv value.
-  *     });
-  *  ```
-  *
-  * @template T 
-  * @param {T[]} items The list of objects to convert to CSV.
-  * @param {DelimitersType} delimiter (optional) the delimiter of the CSV cells
-  * @returns {Promise<string>}
-  */
   public toCSVAsync = async <T extends object>(items: T[], delimiter: DelimitersType = ","): Promise<string> => {
     return new Promise<string>((resolve, reject) => {
       try {
@@ -158,7 +104,7 @@ export class OndCsvBuilderService {
 
   /**
    * @description
-   * 
+   *
    * Parses a CSV file into an array of objects.
    *
    * @param {File} file - The CSV file to parse.
@@ -166,9 +112,9 @@ export class OndCsvBuilderService {
    * @param hasHeader - Indicates whether the CSV file has a header line (default: true).
    * @returns A promise that resolves to an array of objects representing the CSV data.
    * @throws An error if the CSV file is invalid or missing a header line.
-   * 
+   *
    * @example
-   * 
+   *
    * ```ts
    *  const file: File = // your CSV File object;
    *
@@ -185,28 +131,28 @@ export class OndCsvBuilderService {
     return new Promise<Record<string, ValidValuesType>[]>((resolve, reject) => {
       const reader = new FileReader();
 
-      reader.onload = () => {
+      reader.onload = (): void => {
         const fileContents: string | ArrayBuffer | null = reader.result;
 
         try {
           if (typeof fileContents !== 'string') {
-            throw new Error('Invalid file content.');
-          }
-
-          const lines = fileContents.split(/\r\n|\r|\n/);
-
-          if (hasHeader && lines.length > 0) {
-            const header = this.extractHeader(lines.shift(), delimiter);
-
-            if (!header) {
-              reject(new Error('CSV file does not have a valid header line.'));
-              return;
-            }
-
-            const data = this.parseData(lines, delimiter, header);
-            resolve(data);
+            reject(new Error('Invalid file content.'));
           } else {
-            reject(new Error('CSV file does not have a header line.'));
+            const lines: string[] = fileContents?.split(/\r\n|\r|\n/);
+
+            if (hasHeader && lines.length > 0) {
+              const header: string[] | null = this.extractHeader(lines.shift(), delimiter);
+
+              if (!header) {
+                reject(new Error('CSV file does not have a valid header line.'));
+                return;
+              }
+
+              const data: Record<string, ValidValuesType>[] = this.parseData(lines, delimiter, header);
+              resolve(data);
+            } else {
+              reject(new Error('CSV file does not have a header line.'));
+            }
           }
         } catch (error) {
           reject(error);
@@ -219,7 +165,7 @@ export class OndCsvBuilderService {
 
   /**
    * @description
-   * 
+   *
    * Extracts the header line from the CSV content.
    *
    * @param line - The header line from the CSV file.
@@ -233,7 +179,7 @@ export class OndCsvBuilderService {
 
   /**
    * @description
-   * 
+   *
    * Parses the data lines from the CSV content.
    *
    * @param {string[]} lines - The data lines from the CSV file.
@@ -265,15 +211,14 @@ export class OndCsvBuilderService {
 
   /**
    * @description
-   * 
-   * A function that receive a string value and returns this value in it's appropriate type
-   * 
+   *
+   * A function that receive a string value and returns this value in its appropriate type
+   *
    * @param {string | undefined} value The string value
    * @returns {ValidValuesType} The value in the appropriate type
    */
   private getBestValueOfData = (value?: string): ValidValuesType => {
     if (value === undefined || value.trim() === "") return undefined;
-    if (value === null) return null;
     if (value.toLowerCase().trim() === "true") return true;
     if (value.toLowerCase().trim() === "false") return false;
     if (!isNaN(Number(value.toLowerCase().trim()))) return Number(value.toLowerCase().trim());
@@ -283,56 +228,34 @@ export class OndCsvBuilderService {
 
   /**
    * @description
-   * 
+   *
    * private
-   * 
-   * @param {T} element
-   * @param {(keyof T)[]} keys
-   * @returns {string[]}
+   *
+   * @param element
+   * @param keys
+   * @returns values
    */
   private getElementValuesOfKeys = <T extends object>(element: T, keys: (keyof T)[]): string[] => {
-    const vals: string[] = [];
+    const values: string[] = [];
     for (const key of keys) {
-      vals.push(element[key] as string);
+      values.push(element[key] as string);
     }
-    return vals;
+    return values;
   }
 
   /**
-   * @deprecated
-   * 
-   * This function is deprecated, it will be removed in future releases.
-   * 
-   * Please use `downloadCSVAsync` function instead
-   * 
    * @description
-   * 
-   * Downloads a CSV file.
    *
-   * @param {string} csvString The CSV string to download.
-   * @param {string} filename The name of the CSV file to download.
-   */
-  public downloadCSV = (csvString: string, filename: string): void => {
-    const blob = new Blob([csvString], { type: 'text/csv' });
-    const anchorElement = document.createElement('a');
-    anchorElement.href = URL.createObjectURL(blob);
-    anchorElement.download = filename;
-    anchorElement.click();
-  }
-
-  /**
-   * @description
-   * 
    * Async function that downloads a CSV file from a CSV string.
    *
    * @param {string} csvString The CSV string to download.
    * @param {string} filename The name of the CSV file to download.
-   * @returns 
+   * @returns
    */
   public downloadCSVAsync = async (csvString: string, filename: string): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       try {
-        const blob = new Blob([csvString], { type: 'text/csv' });
+        const blob = new Blob([csvString], {type: 'text/csv'});
         const anchorElement = document.createElement('a');
         anchorElement.href = URL.createObjectURL(blob);
         anchorElement.download = filename;
@@ -347,9 +270,9 @@ export class OndCsvBuilderService {
   /**
    * @description
    * Generates the headers list
-   * 
-   * @param {T[]} list 
-   * @returns {(keyof T)[]}
+   *
+   * @param list
+   * @returns headers
    */
   private generateHeaders = <T extends object>(list: T[]): (keyof T)[] => {
     const strKeys: string[] = list ? [...new Set(list.flatMap(obj => Object.keys(obj)))] : [];
