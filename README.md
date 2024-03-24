@@ -2,9 +2,9 @@
 
 @outsiderninjadevs/core is the Angular core library for the core utils. it has services that helps to build better angular apps with the most helpful functionalities.
 
-![@Outsiderninjadevs/core logo](projects/outsiderninjadevs/core/assets/ond-logo.png)
+![@Outsiderninjadevs/core logo](https://raw.githubusercontent.com/achrafmataich/ond-core/master/projects/outsiderninjadevs/core/assets/ond-logo.png)
 
-[![CI/CD Angular Quality Gate](https://github.com/achrafmataich/ond-core/actions/workflows/quality.yml/badge.svg)](https://github.com/achrafmataich/ond-core/actions/workflows/quality.yml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=achrafmataich_ond-core&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=achrafmataich_ond-core)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=achrafmataich_ond-core&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=achrafmataich_ond-core)
 
 ## Features
 
@@ -21,22 +21,7 @@ npm install @outsiderninjadevs/core
 
 ## Usage
 
-1. Import the module `OndCoreModule` in your `@NgModule`
-
-    ```ts
-    import { OndTabularModule } from '@outsiderninjadevs/core';
-
-    @NgModule({
-    declarations: [
-        // ...
-    ],
-    imports: [
-        OndCoreModule, // Here is the module!
-        // ...
-    ],
-    })
-    export class YourModule { }
-    ```
+1. We strongly recommend using the new angular 17 standalone apps, that's why we have no more the `OndCoreModule`
 
 2. Create the list of elements
 

@@ -1,6 +1,6 @@
 {
   "name": "ond-core",
-  "version": "17.0.1",
+  "version": "17.0.1-rc1",
   "scripts": {
     "ng": "ng",
     "test:core:ci": "ng test @outsiderninjadevs/core --watch=false --browsers=ChromeHeadlessCustom",

@@ -1,6 +1,6 @@
 {
   "name": "@outsiderninjadevs/core",
-  "version": "17.0.1",
+  "version": "17.0.1-rc1",
   "peerDependencies": {
     "@angular/common": "^17.3.1",
     "@angular/core": "^17.3.1"
